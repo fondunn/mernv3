@@ -15,16 +15,17 @@ function primitiveMultiply(a, b) {
 }
 
 function reliableMultiply(a, b) {
-
-    try {
-        return primitiveMultiply(a, b);
-    } catch (error) {
-        switch (error.constructor.name) {
-            case "NotificationException": return primitiveMultiply(a, b);
-
-            default: return error.constructor.name
+    do {
+        try {
+            return primitiveMultiply(a, b);
+        } catch ( error ) {
+            if ( error instanceof NotificationException ) {
+                continue;
+            } else if ( error instanceof ErrorException ) {
+                return;
+            }
         }
-    }
+    } while ( false )
 }
 
 console.log(reliableMultiply(8, 8));
