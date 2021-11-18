@@ -1,0 +1,34 @@
+1) pgrep -f sh
+
+2) 
+    2.1) cd var/www/html/logs
+    2.2) cat *.txt > all.txt
+
+3)
+    3.1) cd var/www/html/images
+    3.2) ls | sed -n 's/\.jpg$//p'
+
+4) 
+    4.1) cd var/www/html/logs
+    4.2) touch script.bash
+    4.3) vi script.bash
+    4.4) add code below to vim     
+        
+            shopt globstar 
+            echo -n "" > dict
+            for file in **/*.txt ; do
+            hash=$(echo -n "$file" | md5sum | awk '{print $1}')
+            mv $file $hash
+            echo "$file  $hash" >> dict
+            echo "$file  $hash"
+            done
+
+    4.n) cat script.bash
+
+5)
+    5.1) sudo chown 1200:www-data ~/var/www/html/images
+    5.2) sudo chmod 770 var/www/html/images/
+
+6) cp -f var/www/html/logs/access.txt access.txt
+
+7) find ./var/www/html/img -size +3M -name "cat*"
