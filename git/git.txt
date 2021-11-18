@@ -1,0 +1,4 @@
+1) git checkout dev     // switch to branch dev
+2) git fetch            // get all changes to local repository
+3) git checkout task_4  // switch to branch task_4
+4) git merge            // join changes from dev to task_4
