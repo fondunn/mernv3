@@ -2,32 +2,16 @@ const f1 = (cb) => {cb(1)}
 const f2 = (a, cb) => {cb(a)}
 const f3 = (a, b, cb) => {setTimeout(() => cb([a, b]), 1000)}
 
-function bulkRun(tasks) {
-    return new Promise(function(resalve, reject) {
-        const result = [];
-
-        function cb(...args) {
-            for (let arg of args) {
-                result.push(arg)
-            }
+function bulkRun(task) {
+    const promises = [];
+    for ( const [exec, param] of task) {
+        if ( typeof exec === "function") {
+            promises.push(new Promise(res => {
+                exec(...param, res);
+            }));
         }
-
-        tasks.map(el => {
-            const func = el[0];
-
-            if (el[1].length > 0) {
-                func(...el[1], function(...values) {
-                    cb(values);
-                })
-            } else {
-                func(function(num) {
-                    cb(num)
-                });
-            }
-        });
-
-        setTimeout(() => resalve(result), 1000);
-    })
+    }
+    return Promise.all(promises);
 }
 
 bulkRun(
